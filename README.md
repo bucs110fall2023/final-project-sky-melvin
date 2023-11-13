@@ -10,7 +10,7 @@ Melvin Zhou, Sky Jiang
 ***
 ## Project Description
 Making Wordle 
-    - The player has 5 attempts to guess a 6 letter word
+    - The player has 6 attempts to guess a 6 letter word
     - When the player guesses a word the letters will change colors to signify if the letter is in the word and in the right position, in the word but in the wrong position or not in the word
 ***    
 
@@ -33,6 +33,9 @@ Making Wordle
 3. letters that can be typed and displayed
 4. Screen explaining rules
 5. On screen keyboard
+6. Streak count
+7. Retry button
+8. Timer (?)
 
 ### Classes
 
