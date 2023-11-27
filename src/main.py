@@ -1,17 +1,11 @@
 import pygame
-import check
+import sample_controller
 #import your controller
 
 def main():
     pygame.init()
-    screen = pygame.display.set_mode((720, 720))
-    font = pygame.font.Font(None, 35)
-    pygame.quit()
-    wordle = check.Check.wordle()
-    print(wordle)
-    
-    trial = check.Guess.guesses()
-    print(trial)
+    controller = sample_controller.Controller()
+    controller.mainloop()
     #Create an instance on your controller object
     #Call your mainloop
     
