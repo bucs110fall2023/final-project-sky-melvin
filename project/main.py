@@ -1,8 +1,12 @@
 import pygame
+import check
 #import your controller
 
 def main():
     pygame.init()
+    wordle = check.Check.wordle()
+    print(wordle)
+    
     #Create an instance on your controller object
     #Call your mainloop
     
