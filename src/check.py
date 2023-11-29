@@ -14,6 +14,15 @@ class Check:
         max_attempts = 6
         guessed_letters = []
     
+    def check_pos(wordle, trial):
+        for x, y in zip(wordle, trial):
+            if x == y:
+                print(x)
+            elif y in wordle:
+                print(y + "*")
+            else:
+                print("-")
+    
     def color(self):
         pass
     

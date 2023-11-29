@@ -16,6 +16,8 @@ class Controller:
     
     trial = check.Guess.guesses()
     print(trial)
+    
+    check.Check.check_pos(wordle, trial)
     #select state loop
     
   
