@@ -1,6 +1,6 @@
 import check
 import pygame
-
+pygame.init()
 class Controller:
   
   def __init__(self):
@@ -8,9 +8,8 @@ class Controller:
     font = pygame.font.Font(None, 80)
     clock = pygame.time.Clock()
     running = True
-    
+
     screen.fill("grey")
-      
     x = 50
     y = 50
     coord=[]
@@ -23,6 +22,9 @@ class Controller:
       x = 50
     print(coord)
     pointer=0
+    front_limit=6
+    end_limit=0
+    count=0 # amount of tires
     
     
     while running:
@@ -30,16 +32,23 @@ class Controller:
       for event in pygame.event.get():
         if event.type == pygame.QUIT:
           running = False
+        if count==6:
+          pygame.quit()
         if event.type == pygame.KEYDOWN:
+          if event.key == pygame.K_RETURN:
+            if pointer%6==0 and pointer>=front_limit: #Only press enter with 6 letter word and can't immediatley press enter to skip to other lines
+              end_limit=front_limit #store previous end limit as front limit before increasing it
+              front_limit+=6 
+              count+=1
+                
           if event.key == pygame.K_BACKSPACE:
-              if pointer>0:
+              if pointer>end_limit:
                 pointer-=1
-              if pointer==36:
+              if pointer==front_limit:
                 pointer-=2
                 pygame.draw.rect(screen, "black", [coord[pointer][0],coord[pointer][1], 45, 45])
               pygame.draw.rect(screen, "black", [coord[pointer][0],coord[pointer][1], 45, 45])
-              print('BACK')
-          if pointer==36:
+          if pointer==front_limit:
             pass
           else:
             if event.key == pygame.K_a:
@@ -146,7 +155,9 @@ class Controller:
               text_surface = font.render('Z', False, 'white')
               screen.blit(text_surface, coord[pointer])
               pointer+=1
+            
       
+
       pygame.display.update()
      
       clock.tick(60)  
