@@ -22,9 +22,9 @@ class Controller:
       x = 50
     print(coord)
     pointer=0
-    front_limit=6
-    end_limit=0
-    count=0 # amount of tires
+    end_limit=6
+    front_limit=0
+    count=0 # amount of tries
     
     
     while running:
@@ -36,19 +36,19 @@ class Controller:
           pygame.quit()
         if event.type == pygame.KEYDOWN:
           if event.key == pygame.K_RETURN:
-            if pointer%6==0 and pointer>=front_limit: #Only press enter with 6 letter word and can't immediatley press enter to skip to other lines
-              end_limit=front_limit #store previous end limit as front limit before increasing it
-              front_limit+=6 
+            if pointer%6==0 and pointer>=end_limit: #Only press enter with 6 letter word and can't immediatley press enter to skip to other lines
+              front_limit=end_limit #store previous end limit as front limit before increasing end_limit
+              end_limit+=6
               count+=1
                 
           if event.key == pygame.K_BACKSPACE:
-              if pointer>end_limit:
+              if pointer>front_limit:
                 pointer-=1
-              if pointer==front_limit:
+              if pointer==end_limit:
                 pointer-=2
                 pygame.draw.rect(screen, "black", [coord[pointer][0],coord[pointer][1], 45, 45])
               pygame.draw.rect(screen, "black", [coord[pointer][0],coord[pointer][1], 45, 45])
-          if pointer==front_limit:
+          if pointer==end_limit:
             pass
           else:
             if event.key == pygame.K_a:
