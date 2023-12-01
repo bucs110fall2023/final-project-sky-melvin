@@ -10,7 +10,7 @@ class Controller:
     running = True
 
     screen.fill("grey")
-    x = 50
+    x = 100
     y = 50
     coord=[]
     for h in range(6):
@@ -19,7 +19,7 @@ class Controller:
         coord.append([x,y])
         pygame.draw.rect(screen, "black", [x, y, 45, 45])
         x = x + 50
-      x = 50
+      x = 100
     print(coord)
     pointer=0
     end_limit=6
@@ -40,7 +40,6 @@ class Controller:
               front_limit=end_limit #store previous end limit as front limit before increasing end_limit
               end_limit+=6
               count+=1
-                
           if event.key == pygame.K_BACKSPACE:
               if pointer>front_limit:
                 pointer-=1
