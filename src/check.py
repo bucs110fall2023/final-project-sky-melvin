@@ -17,14 +17,20 @@ class Check:
     def check_pos(wordle, trial):
         for x, y in zip(wordle, trial):
             if x == y:
-                print(x)
+                Check.color("correct", x)      #This is when the letter is in the correct position 
             elif y in wordle:
-                print(y + "*")
+                Check.color("kinda", y)      #This is when the letter is in the wrong position but is still in the word to guess
             else:
-                print("-")
+                Check.color("wrong", y)    #This is when the letter is incorrect/not in the word that you are trying to guess
     
-    def color(self):
-        pass
+    def color(self, letter):
+        if self == "correct":
+            return letter, "green"           #This part may be wrong, we'll have to test it but the functions should each return the letter and the box color
+        elif self == "kinda":
+            return letter, "yellow"
+        elif self == "wrong":
+            return letter, "black"
+            
     
 class Guess:
     def guesses():
