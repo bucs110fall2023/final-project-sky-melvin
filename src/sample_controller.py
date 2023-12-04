@@ -22,7 +22,6 @@ class Controller:
         pygame.draw.rect(screen, "black", [x, y, 45, 45])
         x = x + 50
       x = 100
-    print(coord)
     pointer=0
     end_limit=6
     front_limit=0
@@ -43,12 +42,15 @@ class Controller:
         if event.type == pygame.KEYDOWN:
           if event.key == pygame.K_RETURN:
             if pointer%6==0 and pointer>=end_limit: #Only press enter with 6 letter word and can't immediatley press enter to skip to other lines
-              Controller.check_pos(wordle, guess)
-              for w in range(6):
-                pygame.draw.rect(screen, self.info[w], [coord[w], 45, 45])
+              Controller.check_pos(self ,wordle, guess)
               print(wordle)
               print(guess)
-              print(info)
+              print(self.info)
+              guess = [item.upper() for item in guess]
+              for w in range(6):
+                pygame.draw.rect(screen, self.info[w], [coord[w][0], coord[w][1], 45, 45])
+                text_surface = font.render(guess[w], False, 'white')
+                screen.blit(text_surface, coord[w])
               guess.clear()
               front_limit=end_limit #store previous end limit as front limit before increasing end_limit
               end_limit+=6
