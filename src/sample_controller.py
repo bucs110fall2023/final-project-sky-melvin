@@ -29,8 +29,9 @@ class Controller:
     count=0 # amount of tries
     wordle=Controller.wordle()
     guess=[]
-    info = []
-    
+    self.info = []
+    x = 100
+    y = 50
     
     while running:
       print(pointer)
@@ -43,9 +44,11 @@ class Controller:
           if event.key == pygame.K_RETURN:
             if pointer%6==0 and pointer>=end_limit: #Only press enter with 6 letter word and can't immediatley press enter to skip to other lines
               Controller.check_pos(wordle, guess)
+              for w in range(6):
+                pygame.draw.rect(screen, self.info[w], [coord[w], 45, 45])
               print(wordle)
               print(guess)
-              print(information)
+              print(info)
               guess.clear()
               front_limit=end_limit #store previous end limit as front limit before increasing end_limit
               end_limit+=6
@@ -204,22 +207,15 @@ class Controller:
   def wordle():
     return list(random.choice(dictionary.words))
   
-  def check_pos(wordle, trial):
+  def check_pos(self, wordle, trial):
     for x, y in zip(wordle, trial):
       if x == y:
-        Controller.color("correct")      #This is when the letter is in the correct position 
+        self.info.append("green")     #This is when the letter is in the correct position 
       elif y in wordle:
-        Controller.color("kinda")      #This is when the letter is in the wrong position but is still in the word to guess
+        self.info.append("yellow")      #This is when the letter is in the wrong position but is still in the word to guess
       else:
-        Controller.color("wrong")    #This is when the letter is incorrect/not in the word that you are trying to guess
+        self.info.append("black")    #This is when the letter is incorrect/not in the word that you are trying to guess
     
-  def color(self):
-    if self == "correct":
-      return info.append("green")  #This part may be wrong, we'll have to test it but the functions should each return the letter and the box color
-    elif self == "kinda":
-      return Controller.info.append(letter, "yellow")
-    elif self == "wrong":
-      return Controller.info.append(letter, "black")
   
   def mainloop(self):
     #wordle = check.Check.wordle()
