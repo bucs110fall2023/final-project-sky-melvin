@@ -22,6 +22,7 @@ class Controller:
         pygame.draw.rect(screen, "black", [x, y, 45, 45])
         x = x + 50
       x = 100
+    print(coord)
     pointer=0
     end_limit=6
     front_limit=0
@@ -33,7 +34,6 @@ class Controller:
     y = 50
     
     while running:
-      print(pointer)
       for event in pygame.event.get():
         if event.type == pygame.QUIT:
           running = False
@@ -47,23 +47,26 @@ class Controller:
               print(guess)
               print(self.info)
               guess = [item.upper() for item in guess]
-              for w in range(6):
-                pygame.draw.rect(screen, self.info[w], [coord[w][0], coord[w][1], 45, 45])
-                text_surface = font.render(guess[w], False, 'white')
+              for w in range(front_limit,end_limit):
+                pygame.draw.rect(screen, self.info[w-front_limit], [coord[w][0], coord[w][1], 45, 45])
+                text_surface = font.render(guess[w-front_limit], False, 'white')
                 screen.blit(text_surface, coord[w])
               guess.clear()
+              self.info.clear()
+              
+                
               front_limit=end_limit #store previous end limit as front limit before increasing end_limit
               end_limit+=6
               count+=1
               
           if event.key == pygame.K_BACKSPACE:
               if pointer>front_limit:
+                guess.pop()
                 pointer-=1
               if pointer==end_limit:
                 pointer-=2
                 pygame.draw.rect(screen, "black", [coord[pointer][0],coord[pointer][1], 45, 45])
               pygame.draw.rect(screen, "black", [coord[pointer][0],coord[pointer][1], 45, 45])
-              guess.pop()
           if pointer==end_limit:
             pass
           else:
@@ -197,8 +200,6 @@ class Controller:
               screen.blit(text_surface, coord[pointer])
               pointer+=1
               guess.append('z')
-            
-      
 
       pygame.display.update()
      
