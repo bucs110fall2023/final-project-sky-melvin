@@ -51,13 +51,24 @@ class Controller:
                 pygame.draw.rect(screen, self.info[w-front_limit], [coord[w][0], coord[w][1], 45, 45])
                 text_surface = font.render(guess[w-front_limit], False, 'white')
                 screen.blit(text_surface, coord[w])
+                
+              for j in range(5):
+                equal=True
+                if self.info[j]=='green':
+                  continue
+                else:
+                  equal=False
+                  break
+                
               guess.clear()
               self.info.clear()
-              
-                
+
               front_limit=end_limit #store previous end limit as front limit before increasing end_limit
               end_limit+=6
               count+=1
+                
+              if equal==True:
+                pygame.quit()
               
           if event.key == pygame.K_BACKSPACE:
               if pointer>front_limit:
