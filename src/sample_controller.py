@@ -64,7 +64,7 @@ class Controller:
         pass
       for event in pygame.event.get():
         if event.type == pygame.QUIT:
-          running = False
+          self.running = False
         if self.count==6:
           pygame.quit()
         if event.type == pygame.KEYDOWN:
