@@ -8,18 +8,21 @@ class Controller:
   def __init__(self):
     self.screen = pygame.display.set_mode((500, 520))
     self.font = pygame.font.Font(None, 80)
+    self.font2 = pygame.font.Font(None, 20)
     self.clock = pygame.time.Clock()
     self.running = True
     self.menu = True
-    Controller.menuloop(self)
+    self.restart = False
+    self.num_letters=6
 
     
-    
+    self.attempts=0
     self.pointer=0
     self.end_limit=6
     self.front_limit=0
     self.count=0 # amount of tries
     self.wordle=Controller.wordle()
+    self.wordle2=list(self.wordle)
     self.guess=[]
     self.info = []
     
@@ -30,7 +33,7 @@ class Controller:
       
     
   def wordle():
-    return list(random.choice(dictionary.words))
+    return random.choice(dictionary.words)
   
   def check_pos(self, wordle, trial):
     for x, y in zip(wordle, trial):
@@ -43,21 +46,62 @@ class Controller:
     
   
   def mainloop(self):
+    Controller.menuloop(self)
+    if not self.menu:
+      Controller.gameloop(self)
+      if self.restart:
+        Controller.gameoverloop(self)
+        if not self.restart:
+          Controller.gameloop(self)
+    
+    
+  
+  ### below are some sample loop states ###
+
+  def menuloop(self):
+    while self.menu:
+      self.screen.fill("grey")
+      text_surface = self.font.render("Hexa-Wordle", False, 'black')
+      self.screen.blit(text_surface, (75, 25))
+      pygame.draw.polygon(self.screen, "green", [(100,200), (400,200), (400,300), (100,300)])
+      startbox = pygame.Rect(100,200,300,100)
+      text_surface = self.font.render("START", False, 'black')
+      self.screen.blit(text_surface, (160, 225))
+      pygame.display.flip()
+      for event in pygame.event.get(): 
+        if event.type == pygame.QUIT: 
+          raise SystemExit 
+        elif event.type == pygame.MOUSEBUTTONDOWN: 
+          if event.button == 1: 
+            pos = pygame.mouse.get_pos()
+            start = startbox.collidepoint(pos)
+            if start:
+              self.menu = False
+            else:
+              self.menu = True
+      
+      #event loop
+
+      #update data
+
+      #redraw
+      
+  def gameloop(self):
     while self.running:
       if not self.menu:
         self.screen.fill("grey")
         text_surface = self.font.render("Hexa-Wordle", False, 'black')
         self.screen.blit(text_surface, (75, 25))
-        x = 100
-        y = 50
+        x_coord = 100
+        y_coord = 50
         coord=[]
-        for h in range(6):
-          y = y + 50
-          for w in range(6):
-            coord.append([x,y])
-            pygame.draw.rect(self.screen, "black", [x, y, 45, 45])
-            x = x + 50
-          x = 100
+        for h in range(self.num_letters):
+          y_coord = y_coord + 50
+          for w in range(self.num_letters):
+            coord.append([x_coord,y_coord])
+            pygame.draw.rect(self.screen, "black", [x_coord, y_coord, 45, 45])
+            x_coord = x_coord + 50
+          x_coord = 100
           self.menu = True
         
       else:
@@ -70,8 +114,8 @@ class Controller:
         if event.type == pygame.KEYDOWN:
           if event.key == pygame.K_RETURN:
             if self.pointer%6==0 and self.pointer>=self.end_limit: #Only press enter with 6 letter word and can't immediatley press enter to skip to other lines
-              Controller.check_pos(self ,self.wordle, self.guess)
-              print(self.wordle)
+              Controller.check_pos(self ,self.wordle2, self.guess)
+              print(self.wordle2)
               print(self.guess)
               print(self.info)
               self.guess = [item.upper() for item in self.guess]
@@ -79,14 +123,16 @@ class Controller:
                 pygame.draw.rect(self.screen, self.info[w-self.front_limit], [coord[w][0], coord[w][1], 45, 45])
                 text_surface = self.font.render(self.guess[w-self.front_limit], False, 'white')
                 self.screen.blit(text_surface, coord[w])
+              self.attempts = self.attempts + 1
               
-              for j in range(5): #Checking if player guessed word correctly 
+              for j in range(self.num_letters): #Checking if player guessed word correctly 
                 equal=True
                 if self.info[j]=='green':
                   continue
                 else:
                   equal=False
                   break
+                  
                 
               self.guess.clear()
               self.info.clear()
@@ -96,7 +142,14 @@ class Controller:
               self.count+=1
                 
               if equal==True: #What to do when player guess word correctly
-                pygame.quit()
+                self.restart = True
+                Controller.gameoverloop(self)
+              
+              if equal==False and self.attempts==6:
+                self.restart = True
+                Controller.gameoverloop(self)
+                
+              
                 
              
               
@@ -247,40 +300,6 @@ class Controller:
       self.clock.tick(60)  
 
     pygame.quit()
-    
-  
-  ### below are some sample loop states ###
-
-  def menuloop(self):
-    while self.menu:
-      self.screen.fill("grey")
-      text_surface = self.font.render("Hexa-Wordle", False, 'black')
-      self.screen.blit(text_surface, (75, 25))
-      pygame.draw.polygon(self.screen, "green", [(100,200), (400,200), (400,300), (100,300)])
-      startbox = pygame.Rect(100,200,300,100)
-      text_surface = self.font.render("START", False, 'black')
-      self.screen.blit(text_surface, (160, 225))
-      pygame.display.flip()
-      for event in pygame.event.get(): 
-        if event.type == pygame.QUIT: 
-          raise SystemExit 
-        elif event.type == pygame.MOUSEBUTTONDOWN: 
-          if event.button == 1: 
-            pos = pygame.mouse.get_pos()
-            start = startbox.collidepoint(pos)
-            if start:
-              self.menu = False
-            else:
-              self.menu = True
-      
-      #event loop
-
-      #update data
-
-      #redraw
-      
-  def gameloop(self):
-    pass
       #event loop
 
       #update data
@@ -288,7 +307,52 @@ class Controller:
       #redraw
     
   def gameoverloop(self):
-    pass
+    if self.attempts < 6:
+      while self.restart:
+        self.screen.fill("grey")
+        text_surface = self.font.render("Hexa-Wordle", False, 'black')
+        self.screen.blit(text_surface, (75, 25))
+        text_surface_2 = self.font2.render("You got the correct word! It took you " + str(self.attempts) + " tries. If you want to restart, press the button. Otherwise close the screen.", False, "black")
+        self.screen.blit(text_surface_2, (0, 30))
+        pygame.draw.polygon(self.screen, "blue", [(100,200), (400,200), (400,300), (100,300)])
+        restartbox = pygame.Rect(100,200,300,100)
+        text_surface = self.font.render("RESTART", False, 'black')
+        self.screen.blit(text_surface, (125, 225))
+        pygame.display.flip()
+        for event in pygame.event.get(): 
+          if event.type == pygame.QUIT: 
+            raise SystemExit 
+          elif event.type == pygame.MOUSEBUTTONDOWN: 
+            if event.button == 1: 
+              pos = pygame.mouse.get_pos()
+              restart = restartbox.collidepoint(pos)
+              if restart:
+                self.restart = False
+              else:
+                self.restart = True
+    else:
+      while self.restart:
+        self.screen.fill("grey")
+        text_surface = self.font.render("Hexa-Wordle", False, 'black')
+        self.screen.blit(text_surface, (75, 25))
+        text_surface_2 = self.font2.render("Sorry. The word was " + self.wordle + ". If you want to restart, press the button. Otherwise close the screen.", False, "black")
+        self.screen.blit(text_surface_2, (0, 30))
+        pygame.draw.polygon(self.screen, "blue", [(100,200), (400,200), (400,300), (100,300)])
+        restartbox = pygame.Rect(100,200,300,100)
+        text_surface = self.font.render("RESTART", False, 'black')
+        self.screen.blit(text_surface, (125, 225))
+        pygame.display.flip()
+        for event in pygame.event.get(): 
+          if event.type == pygame.QUIT: 
+            raise SystemExit 
+          elif event.type == pygame.MOUSEBUTTONDOWN: 
+            if event.button == 1: 
+              pos = pygame.mouse.get_pos()
+              restart = restartbox.collidepoint(pos)
+              if restart:
+                self.restart = False
+              else:
+                self.restart = True
       #event loop
 
       #update data
