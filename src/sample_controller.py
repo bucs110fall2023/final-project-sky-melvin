@@ -14,8 +14,6 @@ class Controller:
     self.menu = True
     self.restart = False
     self.num_letters=6
-
-    
     self.attempts=0
     self.pointer=0
     self.end_limit=6
@@ -25,11 +23,6 @@ class Controller:
     self.wordle2=list(self.wordle)
     self.guess=[]
     self.info = []
-    
-
-      
-     
-      
     
   def wordle():
     return random.choice(dictionary.words)
@@ -48,10 +41,6 @@ class Controller:
     Controller.menuloop(self)
     if not self.menu:
       Controller.gameloop(self)
-    
-    
-  
-  ### below are some sample loop states ###
 
   def menuloop(self):
     while self.menu:
@@ -74,12 +63,6 @@ class Controller:
               self.menu = False
             else:
               self.menu = True
-      
-      #event loop
-
-      #update data
-
-      #redraw
       
   def gameloop(self):
     while self.running:
@@ -294,11 +277,6 @@ class Controller:
       self.clock.tick(60)  
 
     pygame.quit()
-      #event loop
-
-      #update data
-
-      #redraw
     
   def gameoverloop(self):
     if self.attempts < 6:
@@ -351,8 +329,3 @@ class Controller:
                 Controller.gameloop(self)
               else:
                 self.restart = True
-      #event loop
-
-      #update data
-
-      #redraw
