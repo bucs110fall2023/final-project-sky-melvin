@@ -85,19 +85,19 @@ class Controller:
     while self.running:
       if not self.restart:
         self.screen.fill("grey")
-      text_surface = self.font.render("Hexa-Wordle", False, 'black')
-      self.screen.blit(text_surface, (75, 25))
-      self.x_coord = 100
-      self.y_coord = 50
-      self.coord=[]
-      for h in range(self.num_letters):
-        self.y_coord = self.y_coord + 50
-        for w in range(self.num_letters):
-          self.coord.append([self.x_coord,self.y_coord])
-          pygame.draw.rect(self.screen, "black", [self.x_coord, self.y_coord, 45, 45])
-          self.x_coord = self.x_coord + 50
+        text_surface = self.font.render("Hexa-Wordle", False, 'black')
+        self.screen.blit(text_surface, (75, 25))
         self.x_coord = 100
-        self.restart = True
+        self.y_coord = 50
+        self.coord=[]
+        for h in range(self.num_letters):
+          self.y_coord = self.y_coord + 50
+          for w in range(self.num_letters):
+            self.coord.append([self.x_coord,self.y_coord])
+            pygame.draw.rect(self.screen, "black", [self.x_coord, self.y_coord, 45, 45])
+            self.x_coord = self.x_coord + 50
+          self.x_coord = 100
+          self.restart = True
       else:
         pass
       for event in pygame.event.get():
