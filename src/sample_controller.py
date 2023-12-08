@@ -79,13 +79,26 @@ class Controller:
                 pygame.draw.rect(self.screen, self.info[w-self.front_limit], [coord[w][0], coord[w][1], 45, 45])
                 text_surface = self.font.render(self.guess[w-self.front_limit], False, 'white')
                 self.screen.blit(text_surface, coord[w])
+              
+              for j in range(5): #Checking if player guessed word correctly 
+                equal=True
+                if self.info[j]=='green':
+                  continue
+                else:
+                  equal=False
+                  break
+                
               self.guess.clear()
               self.info.clear()
-              
-                
-              self.front_limit=self.end_limit #store previous end limit as front limit before increasing self.end_limit
+
+              self.front_limit=self.end_limit #store previous end limit as front limit before increasing end_limit
               self.end_limit+=6
               self.count+=1
+                
+              if equal==True: #What to do when player guess word correctly
+                pygame.quit()
+                
+             
               
           if event.key == pygame.K_BACKSPACE:
               if self.pointer>self.front_limit:
