@@ -26,7 +26,6 @@ class Controller:
     self.guess=[]
     self.info = []
     
-    
 
       
      
@@ -49,10 +48,6 @@ class Controller:
     Controller.menuloop(self)
     if not self.menu:
       Controller.gameloop(self)
-      if self.restart:
-        Controller.gameoverloop(self)
-        if not self.restart:
-          Controller.gameloop(self)
     
     
   
@@ -88,22 +83,21 @@ class Controller:
       
   def gameloop(self):
     while self.running:
-      if not self.menu:
+      if not self.restart:
         self.screen.fill("grey")
-        text_surface = self.font.render("Hexa-Wordle", False, 'black')
-        self.screen.blit(text_surface, (75, 25))
-        x_coord = 100
-        y_coord = 50
-        coord=[]
-        for h in range(self.num_letters):
-          y_coord = y_coord + 50
-          for w in range(self.num_letters):
-            coord.append([x_coord,y_coord])
-            pygame.draw.rect(self.screen, "black", [x_coord, y_coord, 45, 45])
-            x_coord = x_coord + 50
-          x_coord = 100
-          self.menu = True
-        
+      text_surface = self.font.render("Hexa-Wordle", False, 'black')
+      self.screen.blit(text_surface, (75, 25))
+      self.x_coord = 100
+      self.y_coord = 50
+      self.coord=[]
+      for h in range(self.num_letters):
+        self.y_coord = self.y_coord + 50
+        for w in range(self.num_letters):
+          self.coord.append([self.x_coord,self.y_coord])
+          pygame.draw.rect(self.screen, "black", [self.x_coord, self.y_coord, 45, 45])
+          self.x_coord = self.x_coord + 50
+        self.x_coord = 100
+        self.restart = True
       else:
         pass
       for event in pygame.event.get():
@@ -120,9 +114,9 @@ class Controller:
               print(self.info)
               self.guess = [item.upper() for item in self.guess]
               for w in range(self.front_limit,self.end_limit):
-                pygame.draw.rect(self.screen, self.info[w-self.front_limit], [coord[w][0], coord[w][1], 45, 45])
+                pygame.draw.rect(self.screen, self.info[w-self.front_limit], [self.coord[w][0], self.coord[w][1], 45, 45])
                 text_surface = self.font.render(self.guess[w-self.front_limit], False, 'white')
-                self.screen.blit(text_surface, coord[w])
+                self.screen.blit(text_surface, self.coord[w])
               self.attempts = self.attempts + 1
               
               for j in range(self.num_letters): #Checking if player guessed word correctly 
@@ -159,139 +153,139 @@ class Controller:
                 self.pointer-=1
               if self.pointer==self.end_limit:
                 self.pointer-=2
-                pygame.draw.rect(self.screen, "black", [coord[self.pointer][0],coord[self.pointer][1], 45, 45])
-              pygame.draw.rect(self.screen, "black", [coord[self.pointer][0],coord[self.pointer][1], 45, 45])
+                pygame.draw.rect(self.screen, "black", [self.coord[self.pointer][0],self.coord[self.pointer][1], 45, 45])
+              pygame.draw.rect(self.screen, "black", [self.coord[self.pointer][0],self.coord[self.pointer][1], 45, 45])
           if self.pointer==self.end_limit:
             pass
           else:
             if event.key == pygame.K_a:
               text_surface = self.font.render('A', False, 'white')
-              self.screen.blit(text_surface, coord[self.pointer])
+              self.screen.blit(text_surface, self.coord[self.pointer])
               self.pointer+=1
               self.guess.append('a')
             if event.key == pygame.K_b:
               text_surface = self.font.render('B', False, 'white')
-              self.screen.blit(text_surface, coord[self.pointer])
+              self.screen.blit(text_surface, self.coord[self.pointer])
               self.pointer+=1
               self.guess.append('b')
             if event.key == pygame.K_c:
               text_surface = self.font.render('C', False, 'white')
-              self.screen.blit(text_surface, coord[self.pointer])
+              self.screen.blit(text_surface, self.coord[self.pointer])
               self.pointer+=1
               self.guess.append('c')
             if event.key == pygame.K_d:
               text_surface = self.font.render('D', False, 'white')
-              self.screen.blit(text_surface, coord[self.pointer])
+              self.screen.blit(text_surface, self.coord[self.pointer])
               self.pointer+=1
               self.guess.append('d')
             if event.key == pygame.K_e:
               text_surface = self.font.render('E', False, 'white')
-              self.screen.blit(text_surface, coord[self.pointer])
+              self.screen.blit(text_surface, self.coord[self.pointer])
               self.pointer+=1
               self.guess.append('e')
             if event.key == pygame.K_f:
               text_surface = self.font.render('F', False, 'white')
-              self.screen.blit(text_surface, coord[self.pointer])
+              self.screen.blit(text_surface, self.coord[self.pointer])
               self.pointer+=1
               self.guess.append('f')
             if event.key == pygame.K_g:
               text_surface = self.font.render('G', False, 'white')
-              self.screen.blit(text_surface, coord[self.pointer])
+              self.screen.blit(text_surface, self.coord[self.pointer])
               self.pointer+=1
               self.guess.append('g')
             if event.key == pygame.K_h:
               text_surface = self.font.render('H', False, 'white')
-              self.screen.blit(text_surface, coord[self.pointer])
+              self.screen.blit(text_surface, self.coord[self.pointer])
               self.pointer+=1
               self.guess.append('h')
             if event.key == pygame.K_i:
               text_surface = self.font.render('I', False, 'white')
-              self.screen.blit(text_surface, coord[self.pointer])
+              self.screen.blit(text_surface, self.coord[self.pointer])
               self.pointer+=1
               self.guess.append('i')
             if event.key == pygame.K_j:
               text_surface = self.font.render('J', False, 'white')
-              self.screen.blit(text_surface, coord[self.pointer])
+              self.screen.blit(text_surface, self.coord[self.pointer])
               self.pointer+=1
               self.guess.append('j')
             if event.key == pygame.K_k:
               text_surface = self.font.render('K', False, 'white')
-              self.screen.blit(text_surface, coord[self.pointer])
+              self.screen.blit(text_surface, self.coord[self.pointer])
               self.pointer+=1
               self.guess.append('k')
             if event.key == pygame.K_l:
               text_surface = self.font.render('L', False, 'white')
-              self.screen.blit(text_surface, coord[self.pointer])
+              self.screen.blit(text_surface, self.coord[self.pointer])
               self.pointer+=1
               self.guess.append('l')
             if event.key == pygame.K_m:
               text_surface = self.font.render('M', False, 'white')
-              self.screen.blit(text_surface, coord[self.pointer])
+              self.screen.blit(text_surface, self.coord[self.pointer])
               self.pointer+=1
               self.guess.append('m')
             if event.key == pygame.K_n:
               text_surface = self.font.render('N', False, 'white')
-              self.screen.blit(text_surface, coord[self.pointer])
+              self.screen.blit(text_surface, self.coord[self.pointer])
               self.pointer+=1
               self.guess.append('n')
             if event.key == pygame.K_o:
               text_surface = self.font.render('O', False, 'white')
-              self.screen.blit(text_surface, coord[self.pointer])
+              self.screen.blit(text_surface, self.coord[self.pointer])
               self.pointer+=1
               self.guess.append('o')
             if event.key == pygame.K_p:
               text_surface = self.font.render('P', False, 'white')
-              self.screen.blit(text_surface, coord[self.pointer])
+              self.screen.blit(text_surface, self.coord[self.pointer])
               self.pointer+=1
               self.guess.append('p')
             if event.key == pygame.K_q:
               text_surface = self.font.render('Q', False, 'white')
-              self.screen.blit(text_surface, coord[self.pointer])
+              self.screen.blit(text_surface, self.coord[self.pointer])
               self.pointer+=1
               self.guess.append('q')
             if event.key == pygame.K_r:
               text_surface = self.font.render('R', False, 'white')
-              self.screen.blit(text_surface, coord[self.pointer])
+              self.screen.blit(text_surface, self.coord[self.pointer])
               self.pointer+=1
               self.guess.append('r')
             if event.key == pygame.K_s:
               text_surface = self.font.render('S', False, 'white')
-              self.screen.blit(text_surface, coord[self.pointer])
+              self.screen.blit(text_surface, self.coord[self.pointer])
               self.pointer+=1
               self.guess.append('s')
             if event.key == pygame.K_t:
               text_surface = self.font.render('T', False, 'white')
-              self.screen.blit(text_surface, coord[self.pointer])
+              self.screen.blit(text_surface, self.coord[self.pointer])
               self.pointer+=1
               self.guess.append('t')
             if event.key == pygame.K_u:
               text_surface = self.font.render('U', False, 'white')
-              self.screen.blit(text_surface, coord[self.pointer])
+              self.screen.blit(text_surface, self.coord[self.pointer])
               self.pointer+=1
               self.guess.append('u')
             if event.key == pygame.K_v:
               text_surface = self.font.render('V', False, 'white')
-              self.screen.blit(text_surface, coord[self.pointer])
+              self.screen.blit(text_surface, self.coord[self.pointer])
               self.pointer+=1
               self.guess.append('v')
             if event.key == pygame.K_w:
               text_surface = self.font.render('W', False, 'white')
-              self.screen.blit(text_surface, coord[self.pointer])
+              self.screen.blit(text_surface, self.coord[self.pointer])
               self.pointer+=1
               self.guess.append('w')
             if event.key == pygame.K_x:
               text_surface = self.font.render('X', False, 'white')
-              self.screen.blit(text_surface, coord[self.pointer])
+              self.screen.blit(text_surface, self.coord[self.pointer])
               self.pointer+=1
               self.guess.append('x')
             if event.key == pygame.K_y:
               text_surface = self.font.render('Y', False, 'white')
-              self.screen.blit(text_surface, coord[self.pointer])
+              self.screen.blit(text_surface, self.coord[self.pointer])
               self.pointer+=1 
               self.guess.append('y')
             if event.key == pygame.K_z:
               text_surface = self.font.render('Z', False, 'white')
-              self.screen.blit(text_surface, coord[self.pointer])
+              self.screen.blit(text_surface, self.coord[self.pointer])
               self.pointer+=1
               self.guess.append('z')
       
@@ -328,6 +322,8 @@ class Controller:
               restart = restartbox.collidepoint(pos)
               if restart:
                 self.restart = False
+                self.__init__()
+                Controller.gameloop(self)
               else:
                 self.restart = True
     else:
@@ -351,6 +347,8 @@ class Controller:
               restart = restartbox.collidepoint(pos)
               if restart:
                 self.restart = False
+                self.__init__()
+                Controller.gameloop(self)
               else:
                 self.restart = True
       #event loop
