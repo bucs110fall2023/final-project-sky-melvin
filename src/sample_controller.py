@@ -150,8 +150,8 @@ class Controller:
                 self.screen.blit(text_surface, self.coord[w])
               self.attempts = self.attempts + 1
               
-              for j in range(self.num_letters): #Checking if player guessed word correctly 
-                equal=True
+              for j in range(self.num_letters): #Checking if player guessed word correctly
+                equal=True 
                 if self.info[j]=='green':
                   continue
                 else:
@@ -326,7 +326,7 @@ class Controller:
     '''
     displays game over screen and button you can click to restart the game
     '''
-    if self.attempts < 6:
+    if self.attempts <= 6:
       while self.restart:
         self.screen.fill("grey")
         text_surface = self.font.render("Hexa-Wordle", False, 'black')
@@ -356,7 +356,7 @@ class Controller:
               else:
                 self.restart = True
     else:
-      while self.restart:
+      while self.restart :
         self.screen.fill("grey")
         text_surface = self.font.render("Hexa-Wordle", False, 'black')
         self.screen.blit(text_surface, (75, 25))
