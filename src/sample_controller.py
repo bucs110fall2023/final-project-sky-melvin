@@ -42,6 +42,7 @@ class Controller:
     self.wordle2=list(self.wordle)
     self.guess=[]
     self.info = []
+    self.equal=True
     
   def wordle():
     '''
@@ -140,9 +141,6 @@ class Controller:
           if event.key == pygame.K_RETURN:
             if self.pointer%6==0 and self.pointer>=self.end_limit: #Only press enter with 6 letter word and can't immediatley press enter to skip to other lines
               Controller.check_pos(self ,self.wordle2, self.guess)
-              print(self.wordle2)
-              print(self.guess)
-              print(self.info)
               self.guess = [item.upper() for item in self.guess]
               for w in range(self.front_limit,self.end_limit):
                 pygame.draw.rect(self.screen, self.info[w-self.front_limit], [self.coord[w][0], self.coord[w][1], 45, 45])
@@ -151,11 +149,11 @@ class Controller:
               self.attempts = self.attempts + 1
               
               for j in range(self.num_letters): #Checking if player guessed word correctly
-                equal=True 
+                self.equal=True 
                 if self.info[j]=='green':
                   continue
                 else:
-                  equal=False
+                  self.equal=False
                   break
                   
                 
@@ -166,11 +164,11 @@ class Controller:
               self.end_limit+=6 #Move end limit to end of next row 
               
                 
-              if equal==True: #What to do when player guess word correctly
+              if self.equal==True: #What to do when player guess word correctly
                 self.restart = True
                 Controller.gameoverloop(self)
               
-              if equal==False and self.attempts==6:
+              if self.equal==False and self.attempts==6:
                 self.restart = True
                 Controller.gameoverloop(self)
 
@@ -326,7 +324,7 @@ class Controller:
     '''
     displays game over screen and button you can click to restart the game
     '''
-    if self.attempts <= 6:
+    if self.attempts <= 6 and self.equal==True :
       while self.restart:
         self.screen.fill("grey")
         text_surface = self.font.render("Hexa-Wordle", False, 'black')
