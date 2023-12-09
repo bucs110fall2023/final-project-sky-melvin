@@ -7,7 +7,7 @@ class Controller:
   
   def __init__(self):
     """
-    Initialize the a new object
+    Initialize a new object
     
     self.screen = Module  #creates the display
     self.font = Module  #creates the font for the bigger letters
@@ -17,15 +17,14 @@ class Controller:
     self.menu = Boolean  #checks if menu should be displayed
     self.restart =  Boolean  #checks when game is over and needs to go to restart menu
     self.num_letters= Integer  #the amount of letters each word can have
-    self.attempts= Integer  #counts the amount of words the user has inputed
+    self.attempts= Integer  #counts the amount of words the user has inputted
     self.pointer= Integer  #looks at the position of the next letter box that can be typed in
     self.end_limit= Integer  #keeps track of the end of each row of 6 letters
     self.front_limit= Integer  #keeps track of the front of each row of 6 letters
-    self.count=0 # amount of tries
-    self.wordle=Controller.wordle()
-    self.wordle2=list(self.wordle)
-    self.guess=[]
-    self.info = []
+    self.wordle= String  #returns a word in the dictionary file to guess
+    self.wordle2= String  #splits the letters in a list 
+    self.guess= String  #user inputted word split into a list
+    self.info = String  #compares letters in both lists and returns how correct they are
     """
     self.screen = pygame.display.set_mode((500, 520))
     self.font = pygame.font.Font(None, 80)
@@ -39,16 +38,25 @@ class Controller:
     self.pointer=0
     self.end_limit=6
     self.front_limit=0
-    self.count=0 # amount of tries
     self.wordle=Controller.wordle()
     self.wordle2=list(self.wordle)
     self.guess=[]
     self.info = []
     
   def wordle():
+    '''
+    takes a random word from the words list in the dictionary file
+    return: String  # a randoms word in the words list
+    '''
     return random.choice(dictionary.words)
   
   def check_pos(self, wordle, trial):
+    '''
+    checks if the letters are in the right position and in the answer word
+    
+    wordle: String  #the list of letters from the word that needs to be guessed
+    trial: String  #the list of letters from user inputted word
+    '''
     for x, y in zip(wordle, trial):
       if x == y:
         self.info.append("green")     #This is when the letter is in the correct position 
@@ -59,11 +67,17 @@ class Controller:
     
   
   def mainloop(self):
+    '''
+    Stops displaying main menu and displays the game
+    '''
     Controller.menuloop(self)
     if not self.menu:
       Controller.gameloop(self)
 
   def menuloop(self):
+    '''
+    displays the starting menu and button to start the game
+    '''
     while self.menu:
       self.screen.fill("grey")
       text_surface = self.font.render("Hexa-Wordle", False, 'black')
@@ -96,6 +110,9 @@ class Controller:
               self.menu = True
       
   def gameloop(self):
+    '''
+    displays the game and allows player to type and enter 6 letter words
+    '''
     while self.running:
       if not self.restart:
         self.screen.fill("grey")
@@ -306,6 +323,9 @@ class Controller:
     pygame.quit()
     
   def gameoverloop(self):
+    '''
+    displays game over screen and button you can click to restart the game
+    '''
     if self.attempts < 6:
       while self.restart:
         self.screen.fill("grey")
