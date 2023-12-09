@@ -38,7 +38,6 @@ Making Wordle
 
 - Controller: Where all the code is and is run from
 
-## ATP
 
 
 
