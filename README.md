@@ -22,7 +22,7 @@ Making Wordle
 
 ### Final Design
 
-![final gui](assets/finalgui.jpg)
+![final gui](assets/final_gui.jpg)
 
 ## Program Design
 
@@ -32,14 +32,11 @@ Making Wordle
 2. hints through colored words after guess
 3. letters that can be typed and displayed
 4. Screen explaining rules
-5. On screen keyboard
-6. Streak count
-7. Retry button
-8. Timer (?)
+5. Retry button
 
 ### Classes
 
-- << You should have a list of each of your classes with a description >>
+- Controller: Where all the code is and is run from
 
 ## ATP
 
