@@ -6,6 +6,27 @@ pygame.init()
 class Controller:
   
   def __init__(self):
+    """
+    Initialize the a new object
+    
+    self.screen = Module  #creates the display
+    self.font = Module  #creates the font for the bigger letters
+    self.font2 = Module  #creates the font for the smaller letters
+    self.clock = Module  #creates an object that keeps time
+    self.running = Boolean  #checks if the program is running
+    self.menu = Boolean  #checks if menu should be displayed
+    self.restart =  Boolean  #checks when game is over and needs to go to restart menu
+    self.num_letters= Integer  #the amount of letters each word can have
+    self.attempts= Integer  #counts the amount of words the user has inputed
+    self.pointer= Integer  #looks at the position of the next letter box that can be typed in
+    self.end_limit= Integer  #keeps track of the end of each row of 6 letters
+    self.front_limit= Integer  #keeps track of the front of each row of 6 letters
+    self.count=0 # amount of tries
+    self.wordle=Controller.wordle()
+    self.wordle2=list(self.wordle)
+    self.guess=[]
+    self.info = []
+    """
     self.screen = pygame.display.set_mode((500, 520))
     self.font = pygame.font.Font(None, 80)
     self.font2 = pygame.font.Font(None, 30)
@@ -93,11 +114,11 @@ class Controller:
           self.restart = True
       else:
         pass
+      
       for event in pygame.event.get():
         if event.type == pygame.QUIT:
           self.running = False
-        if self.count==6:
-          pygame.quit()
+       
         if event.type == pygame.KEYDOWN:
           if event.key == pygame.K_RETURN:
             if self.pointer%6==0 and self.pointer>=self.end_limit: #Only press enter with 6 letter word and can't immediatley press enter to skip to other lines
@@ -125,8 +146,8 @@ class Controller:
               self.info.clear()
 
               self.front_limit=self.end_limit #store previous end limit as front limit before increasing end_limit
-              self.end_limit+=6
-              self.count+=1
+              self.end_limit+=6 #Move end limit to end of next row 
+              
                 
               if equal==True: #What to do when player guess word correctly
                 self.restart = True
@@ -135,11 +156,7 @@ class Controller:
               if equal==False and self.attempts==6:
                 self.restart = True
                 Controller.gameoverloop(self)
-                
-              
-                
-             
-              
+
           if event.key == pygame.K_BACKSPACE:
               if self.pointer>self.front_limit:
                 self.guess.pop()
