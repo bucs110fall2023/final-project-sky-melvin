@@ -324,7 +324,7 @@ class Controller:
     '''
     displays game over screen and button you can click to restart the game
     '''
-    if self.attempts <= 6 and self.equal==True :
+    if self.attempts <= 6 and self.equal==True:
       while self.restart:
         self.screen.fill("grey")
         text_surface = self.font.render("Hexa-Wordle", False, 'black')
